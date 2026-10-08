@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#d9e8b9">
+<title>微光森林｜互動背景</title>
+<style>
+  :root{color-scheme:light;--ink:#263b28;--cream:#fff8df;--leaf:#315b37;--lime:#bedc67;--gold:#f4c75e;--pink:#e98d91}
+  *{box-sizing:border-box}
+  html,body{margin:0;width:100%;height:100%;overflow:hidden}
+  body{font-family:ui-rounded,"Avenir Next",system-ui,-apple-system,"Segoe UI",sans-serif;background:#c9dfaa;color:var(--ink)}
+  #world{position:relative;width:100%;height:100svh;min-height:560px;overflow:hidden;isolation:isolate;background:linear-gradient(180deg,#b9d8bc 0%,#d8e5b6 48%,#f0dda0 100%);cursor:crosshair}
+  .sky{position:absolute;inset:0 0 38%;background:radial-gradient(ellipse at 50% 92%,rgba(255,247,199,.85),transparent 50%),linear-gradient(180deg,#a9d6d3 0%,#c7e1c1 55%,#e8e7b3 100%)}
+  .sun{position:absolute;width:clamp(90px,13vw,180px);aspect-ratio:1;border-radius:50%;right:13%;top:9%;background:#fff1ad;box-shadow:0 0 70px 24px rgba(255,237,158,.43);animation:sun-breathe 8s ease-in-out infinite alternate}
+  @keyframes sun-breathe{to{transform:scale(1.08);opacity:.82}}
+  .cloud{position:absolute;width:170px;height:42px;border-radius:50px;background:rgba(255,255,230,.34);filter:blur(2px);animation:drift 42s linear infinite}
+  .cloud:before,.cloud:after{content:"";position:absolute;background:inherit;border-radius:50%}.cloud:before{width:75px;height:72px;left:28px;top:-35px}.cloud:after{width:90px;height:62px;right:23px;top:-25px}
+  .c1{top:17%;left:-180px}.c2{top:29%;left:-240px;transform:scale(.7);animation-duration:60s;animation-delay:-25s}
+  @keyframes drift{to{translate:calc(100vw + 420px) 0}}
+  .hill{position:absolute;left:-10%;width:120%;border-radius:50% 50% 0 0/22% 22% 0 0}
+  .hill.back{height:48%;bottom:28%;background:linear-gradient(170deg,#a4c885,#7fae70);transform:rotate(-2deg)}
+  .hill.mid{height:43%;bottom:18%;background:linear-gradient(180deg,#85b96d,#5c9858);transform:rotate(2deg)}
+  .ground{position:absolute;inset:auto 0 0;height:36%;background:linear-gradient(180deg,#76a95c,#537d43 78%,#42683a)}
+  .ground:before{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 16% 20%,rgba(208,227,126,.5),transparent 30%),radial-gradient(ellipse at 78% 5%,rgba(197,222,111,.45),transparent 25%)}
+  .path{position:absolute;bottom:-15%;left:29%;width:42%;height:47%;border-radius:50% 48% 0 0;background:linear-gradient(170deg,#d7bd7b,#b99a5d);transform:rotate(-3deg);opacity:.9}
+  .path:after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse,rgba(255,242,184,.42),transparent 68%)}
+  .flowerbed{position:absolute;inset:0;pointer-events:none}
+  .flower{position:absolute;bottom:var(--b);left:var(--x);width:var(--s);height:calc(var(--s)*1.35);transform:rotate(var(--r));transform-origin:bottom center;animation:sway var(--t) ease-in-out infinite alternate}
+  @keyframes sway{to{transform:rotate(calc(var(--r) + 5deg))}}
+  .stem{position:absolute;width:4px;height:68%;left:50%;bottom:0;background:#497a3e;border-radius:4px;transform:translateX(-50%)}
+  .petal{position:absolute;left:50%;top:0;width:42%;height:37%;border-radius:60% 60% 45% 45%;background:var(--p);transform-origin:50% 100%;box-shadow:inset -3px -3px 0 rgba(95,83,35,.09)}
+  .petal:nth-child(2){transform:translateX(-50%) rotate(60deg)}.petal:nth-child(3){transform:translateX(-50%) rotate(120deg)}.petal:nth-child(4){transform:translateX(-50%) rotate(180deg)}.petal:nth-child(5){transform:translateX(-50%) rotate(240deg)}.petal:nth-child(6){transform:translateX(-50%) rotate(300deg)}
+  .center{position:absolute;width:27%;aspect-ratio:1;left:50%;top:14%;transform:translateX(-50%);border-radius:50%;background:#f6cf55;box-shadow:0 1px 4px #8c6d36}
+  .bug{position:absolute;z-index:2;font-size:clamp(19px,2.4vw,33px);filter:drop-shadow(0 4px 2px #35582c55);animation:bug-walk 8s ease-in-out infinite alternate;transition:left .8s cubic-bezier(.2,.8,.2,1),top .8s cubic-bezier(.2,.8,.2,1);user-select:none;cursor:pointer}
+  @keyframes bug-walk{50%{translate:0 -6px}100%{translate:0 2px}}
+  .mote{position:absolute;width:5px;height:5px;border-radius:50%;background:#fff8c8;box-shadow:0 0 12px 3px #fff5b899;animation:float 7s ease-in-out infinite;pointer-events:none}
+  @keyframes float{0%,100%{transform:translate(0,12px);opacity:0}25%,70%{opacity:.8}50%{transform:translate(18px,-40px)}}
+  .topbar{position:absolute;top:max(24px,env(safe-area-inset-top));left:clamp(18px,5vw,72px);right:clamp(18px,5vw,72px);display:flex;align-items:center;justify-content:space-between;z-index:5;pointer-events:none}
+  .brand{font-size:clamp(19px,2.2vw,30px);font-weight:750;letter-spacing:.05em;text-shadow:0 2px 16px #fff9d4;color:#284a32}
+  .brand small{display:block;margin-top:2px;font-size:11px;letter-spacing:.22em;font-weight:600;opacity:.7}
+  .sound{pointer-events:auto;border:1px solid #fff9d488;background:#f9f6d6aa;color:#294b31;border-radius:999px;padding:11px 16px;font:600 13px inherit;backdrop-filter:blur(8px);box-shadow:0 5px 18px #426e3b22;cursor:pointer;transition:transform .2s,background .2s}
+  .sound:hover{transform:translateY(-2px);background:#fff9de}
+  .hint{position:absolute;z-index:4;bottom:max(25px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);padding:10px 17px;border-radius:999px;background:#264b35ad;color:#fff8dd;font-size:12px;letter-spacing:.08em;white-space:nowrap;backdrop-filter:blur(8px);transition:opacity .7s}
+  .hint.hide{opacity:0}
+  .ripples{position:absolute;z-index:3;inset:0;pointer-events:none;overflow:hidden}
+  .ripple{position:absolute;width:18px;height:18px;border:2px solid #fff4bf;border-radius:50%;animation:ripple .8s ease-out forwards}
+  @keyframes ripple{to{transform:scale(5);opacity:0}}
+  @media(max-width:600px){#world{min-height:480px}.hill.back{height:43%;bottom:31%}.hill.mid{height:36%;bottom:21%}.ground{height:38%}.path{left:19%;width:62%;height:42%}.sun{right:11%;top:14%}}
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:20s!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<main id="world" aria-label="可互動的微型森林背景">
+  <div class="sky"></div><div class="sun"></div><div class="cloud c1"></div><div class="cloud c2"></div>
+  <div class="hill back"></div><div class="hill mid"></div><div class="ground"></div><div class="path"></div>
+  <div class="flowerbed" id="flowers"></div><div class="ripples" id="ripples"></div>
+  <div class="topbar"><div class="brand">微光森林<small>THE TINY WILD</small></div><button class="sound" id="sound" aria-pressed="false">♫　開啟森林聲音</button></div>
+  <div class="hint" id="hint">點一下草地，看看小夥伴會去哪裡</div>
+</main>
+<script>
+(()=>{
+  const world=document.getElementById('world'), flowers=document.getElementById('flowers'), ripples=document.getElementById('ripples'), hint=document.getElementById('hint');
+  const colors=['#fff0a3','#f5a6a1','#e9eea1','#c5dc85','#f4c66a'];
+  for(let i=0;i<30;i++){
+    const f=document.createElement('div'); f.className='flower';
+    const x=3+Math.random()*94, b=3+Math.random()*34, s=14+Math.random()*31;
+    f.style.cssText=`--x:${x}%;--b:${b}%;--s:${s}px;--r:${-12+Math.random()*24}deg;--t:${2.8+Math.random()*3}s;--p:${colors[i%colors.length]}`;
+    f.innerHTML='<i class="stem"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="petal"></i><i class="center"></i>';
+    flowers.appendChild(f);
+  }
+  for(let i=0;i<22;i++){const m=document.createElement('i');m.className='mote';m.style.cssText=`left:${Math.random()*100}%;top:${25+Math.random()*70}%;animation-delay:${-Math.random()*8}s;animation-duration:${5+Math.random()*6}s`;world.appendChild(m)}
+  const friends=[];
+  for(let i=0;i<7;i++){
+    const bug=document.createElement('div');bug.className='bug';bug.textContent=['🌱','🍄','🪲','🌼','🐞','🌱','🦋'][i];
+    bug.style.left=(14+i*11)+'%';bug.style.top=(60+(i%3)*8)+'%';bug.style.animationDelay=(-i*.7)+'s';world.appendChild(bug);friends.push(bug);
+    bug.addEventListener('click',e=>{e.stopPropagation();chirp(520+i*75,.12);bug.animate([{transform:'scale(1)'},{transform:'scale(1.5) rotate(12deg)'},{transform:'scale(1)'}],{duration:450});});
+  }
+  let audio,master,ambience=false,ambienceTimer;
+  function tone(freq,duration,type='sine',gain=.035,when=0){if(!audio)return;const o=audio.createOscillator(),g=audio.createGain();o.type=type;o.frequency.value=freq;g.gain.setValueAtTime(.0001,audio.currentTime+when);g.gain.exponentialRampToValueAtTime(gain,audio.currentTime+when+.025);g.gain.exponentialRampToValueAtTime(.0001,audio.currentTime+when+duration);o.connect(g);g.connect(master);o.start(audio.currentTime+when);o.stop(audio.currentTime+when+duration+.03)}
+  function chirp(freq=660,duration=.18){tone(freq,duration,'sine',.055);tone(freq*1.5,duration*.72,'triangle',.018,.025)}
+  function ambient(){if(!ambience)return;const notes=[392,440,523,587,659,784];tone(notes[Math.floor(Math.random()*notes.length)],.55,'sine',.009,0);ambienceTimer=setTimeout(ambient,900+Math.random()*1800)}
+  document.getElementById('sound').addEventListener('click',async e=>{
+    if(!audio){audio=new (window.AudioContext||window.webkitAudioContext)();master=audio.createGain();master.gain.value=.65;master.connect(audio.destination)}
+    await audio.resume();ambience=!ambience;e.currentTarget.setAttribute('aria-pressed',String(ambience));e.currentTarget.textContent=ambience?'♫　森林聲音已開':'♫　開啟森林聲音';
+    if(ambience){chirp(660,.23);ambient()}else{clearTimeout(ambienceTimer);chirp(440,.17)}
+  });
+  world.addEventListener('click',e=>{
+    if(e.target.closest('button')||e.target.closest('.bug'))return;
+    const r=world.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
+    const ring=document.createElement('i');ring.className='ripple';ring.style.left=(x-9)+'px';ring.style.top=(y-9)+'px';ripples.appendChild(ring);ring.addEventListener('animationend',()=>ring.remove());
+    const buddy=friends[Math.floor(Math.random()*friends.length)];buddy.style.left=Math.max(2,Math.min(94,x/r.width*100+(Math.random()*8-4)))+'%';buddy.style.top=Math.max(38,Math.min(82,y/r.height*100+(Math.random()*8-4)))+'%';
+    if(audio&&ambience)chirp(480+Math.random()*320,.12);hint.classList.add('hide');
+  });
+})();
+</script>
+</body>
+</html>
